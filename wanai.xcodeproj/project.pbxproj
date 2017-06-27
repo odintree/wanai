@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		360D6E1E1F02D3C30006ACD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 360D6E1D1F02D3C30006ACD8 /* GoogleService-Info.plist */; };
 		360D6E221F02D8630006ACD8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D6E211F02D8630006ACD8 /* LoginViewController.swift */; };
+		360D6E261F02EBF70006ACD8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D6E251F02EBF70006ACD8 /* CameraViewController.swift */; };
 		361002541F02D31E006C91B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361002531F02D31E006C91B8 /* AppDelegate.swift */; };
 		361002561F02D31E006C91B8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361002551F02D31E006C91B8 /* HomeViewController.swift */; };
 		361002581F02D31E006C91B8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361002571F02D31E006C91B8 /* ProfileViewController.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		360D6E1D1F02D3C30006ACD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		360D6E211F02D8630006ACD8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		360D6E251F02EBF70006ACD8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		361002501F02D31D006C91B8 /* wanai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wanai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		361002531F02D31E006C91B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		361002551F02D31E006C91B8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				360D6E211F02D8630006ACD8 /* LoginViewController.swift */,
 				361002551F02D31E006C91B8 /* HomeViewController.swift */,
 				361002571F02D31E006C91B8 /* ProfileViewController.swift */,
+				360D6E251F02EBF70006ACD8 /* CameraViewController.swift */,
 				361002591F02D31E006C91B8 /* Main.storyboard */,
 				3610025C1F02D31E006C91B8 /* Assets.xcassets */,
 				3610025E1F02D31E006C91B8 /* LaunchScreen.storyboard */,
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				360D6E221F02D8630006ACD8 /* LoginViewController.swift in Sources */,
+				360D6E261F02EBF70006ACD8 /* CameraViewController.swift in Sources */,
 				361002581F02D31E006C91B8 /* ProfileViewController.swift in Sources */,
 				361002541F02D31E006C91B8 /* AppDelegate.swift in Sources */,
 				361002561F02D31E006C91B8 /* HomeViewController.swift in Sources */,
