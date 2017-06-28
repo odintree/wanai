@@ -140,7 +140,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
 
     @IBAction func uploadButtonClicked(_ sender: UIButton) {
-        self.uploadButton.isEnabled = false
         
         let mediaFolder = Storage.storage().reference().child("media")
         
@@ -156,14 +155,14 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 } else {
                     let imageURL = metadata?.downloadURL()?.absoluteString
                     let uid = Auth.auth().currentUser?.uid
+                    let email = Auth.auth().currentUser?.email
                     let key = self.refPosts.childByAutoId().key
                     
-                    let photoPost = ["id" : key,"image" : imageURL!, "userUid" : uid!, "storageUUID": self.uuid, "timestamp": ServerValue.timestamp()] as [String : Any]
+                    let photoPost = ["id" : key,"image" : imageURL!, "email" : email!, "userUid" : uid!, "storageUUID": self.uuid, "timestamp": ServerValue.timestamp()] as [String : Any]
                     
                     self.refPosts.child(key).setValue(photoPost)
                     
                     self.uploadPicture.image = UIImage(named: "")
-                    self.uploadButton.isEnabled = false
                     self.tabBarController?.selectedIndex = 0
                     
                 }
