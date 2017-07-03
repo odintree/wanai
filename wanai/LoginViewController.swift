@@ -17,10 +17,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var facebooklogin: UIButton!
     
+    var ref: DatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.ref = Database.database().reference()
     }
     
     @IBAction func loginButtonClicked(_ sender: UIButton) {
@@ -55,6 +57,16 @@ class LoginViewController: UIViewController {
                     
                     UserDefaults.standard.set(user!.uid, forKey: "userSigned")
                     UserDefaults.standard.synchronize()
+                    
+                    if let uid = Auth.auth().currentUser?.uid as String! {
+                        
+                        self.ref.child("users").child(uid).setValue(["name": user?.email!])
+                        
+                        let followItem = ["uid": uid]
+                        let childUpdates = ["/follows/\(uid)/\(uid)": followItem,
+                                            "/followedBy/\(uid)/\(uid)/": followItem] as [String : Any]
+                        self.ref.updateChildValues(childUpdates)
+                    }
                     
                     let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     delegate.rememberLogin()
@@ -92,6 +104,35 @@ class LoginViewController: UIViewController {
                     
                     let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     delegate.rememberLogin()
+                }
+            }
+        }
+        
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if (user != nil) {
+                if let uid = user?.uid as String! {
+                    print(uid)
+                    if let providerData = user?.providerData {
+                        for profile in providerData {
+                            //print("Sign-in provider: " 	+ profile.providerId)
+                            print("  Provider-specific UID: "+profile.uid)
+                            var displayName: String
+                            if profile.displayName != nil {
+                                displayName = profile.displayName!
+                            } else {
+                                displayName = profile.email!
+                            }
+                            
+                            print("  Name: "+displayName)
+                            print("  Email: "+profile.email!)
+                            //print("  Photo URL: "profile.photoURL)
+                        }
+                    }
+                    
+                    let followItem = ["uid": uid]
+                    let childUpdates = ["/follows/\(uid)/\(uid)": followItem,
+                                        "/followedBy/\(uid)/\(uid)/": followItem] as [String : Any]
+                    self.ref.updateChildValues(childUpdates)
                 }
             }
         }

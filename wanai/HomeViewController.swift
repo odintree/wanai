@@ -28,20 +28,45 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getPostsFromServer() {
-        self.ref?.child("posts").queryOrdered(byChild: "timestamp").observe(.value, with: { (snapshot) in
-            if snapshot.childrenCount > 0 {
-                self.posts.removeAll()
-                
-                for posts in snapshot.children.allObjects as! [DataSnapshot] {
-                    let postObject = posts.value as! [String : AnyObject]
-                    let post = self.createPost(postObject: postObject)
-                    
-                    self.posts.append(post)
+        if let userUid = Auth.auth().currentUser?.uid {
+            
+            self.posts.removeAll()
+            
+            self.ref.child("follows").queryOrderedByKey().queryEqual(toValue: userUid).observe(.value, with: { snapshot in
+                print(snapshot)
+                for case let childSnapshot as DataSnapshot in snapshot.children {
+                    print("Child: ")
+                    print(childSnapshot)
+                    if childSnapshot.key == userUid {
+                        print("Child Value: ")
+                        print(childSnapshot.value)
+                        var followedUsers = childSnapshot.value as? [String: [String: String]]
+                        for (_, followedUser) in followedUsers! {
+                            if let follId = followedUser["uid"] {
+                                self.ref?.child("posts").queryOrdered(byChild: "userUid").queryEqual(toValue: follId).observe(.value, with: { (postSnapshot) in
+                                    print(postSnapshot)
+                                    
+                                    if postSnapshot.childrenCount > 0 {
+                                        
+                                        for posts in postSnapshot.children.allObjects as! [DataSnapshot] {
+                                            let postObject = posts.value as! [String : AnyObject]
+                                            let post = self.createPost(postObject: postObject)
+                                            self.posts.append(post)
+
+                                        }
+                                    }
+                                    self.homeTableView.reloadData()
+                                })
+                            }
+                        }
+                    }
                 }
-                print(self.posts)
-                self.homeTableView.reloadData()
-            }
-        })
+                
+                
+                
+            })
+            self.posts.sort(by: postOrder)
+        }
     }
     
     func createPost(postObject: [String: AnyObject]) -> PostModel {
@@ -52,6 +77,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let timestamp = postObject["timestamp"]
         let userUid = postObject["userUid"]
         return PostModel(id: id as? String, image: image as? String, email: email as? String, storageUUID: storageUUID as? String, timestamp: timestamp as? String, userUid: userUid as? String)
+    }
+    
+    func postOrder(value1: PostModel, value2: PostModel) -> Bool {
+        return value1.timestamp! < value2.timestamp!;
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
